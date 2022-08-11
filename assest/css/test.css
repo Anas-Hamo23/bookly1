@@ -207,6 +207,7 @@ option {
     padding-top: 35px;
     width: 90%;
     margin-left: 5%;
+    height: max-content;
   }
   .table-back {
     width: 95%;
@@ -299,7 +300,7 @@ table td {
     display: block;
     font-size: 0.8em;
     text-align: left;
-    padding-left: 60%;
+    padding-left: 50%;
   }
 
   table td::before {
