@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Complete Responsive Website Design</title>
+<link rel="stylesheet" href="login/css/fontawesome.css">
+<link rel="stylesheet" href="login/css/all.css">
+<link rel="stylesheet" href="/login/style.css">
+</head>
+<body>
+    <section class="contact" id="contact">
+        <h1 class="head"><span>b</span>ookly</h1>
+        <div class="image">
+            <img src="/login/image/20945760.jpg">
+        </div>
+        <form action="">
+            <h1 class="heading">Welcome Back</h1>
+            <h3>Login to continue</h3>
+            <div class="inputbox">
+                <input type="text" placeholder="full name" id="inputfullname">
+                <label> <i class="fas fa-user"></i> </label>
+            </div>
+            <div class="inputbox">
+                <input type="text" placeholder="username@gmail.com" id="inputemail">
+                <label> <i class="fas fa-user"></i> </label>
+            </div>
+            <div class="inputbox">
+             <input type="password"required placeholder="Enter Password" id="inputpss">
+             <label> <i class="fas fa-lock"></i> </label>
+         </div>
+        <a  href="home/homeguest.html">LOGIN as Guest</a>
+
+        </form>
+        <input id="submitBtn" type="submit" class="btn1" value="LOGIN" >
+      
+    </section>
+
+     
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+    
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDWPErVaOrINYAC5lxtLh8sR0hSlZbDBf8",
+          authDomain: "epuproj.firebaseapp.com",
+          projectId: "epuproj",
+          storageBucket: "epuproj.appspot.com",
+          messagingSenderId: "921730510207",
+          appId: "1:921730510207:web:4bd9c904338dc8d609be4a",
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        import {
+          getDatabase,
+          ref,
+          child,
+          onValue,
+          get,
+        } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
+        const db = getDatabase();
+        var fullname=document.getElementById("inputfullname")
+
+
+        var email=document.getElementById("inputemail")
+        var pass=document.getElementById("inputpss")
+        var submitBtn=document.getElementById("submitBtn")
+
+
+
+function AuthenticateUser(){
+
+    const dbref=ref(db);
+
+    get(child(dbref,"UserList/"+ fullname.value)).then((snapshot)=>{
+
+        if(snapshot.exists()){
+            let dbpass=snapshot.val().password;
+            if(dbpass==pass.value){
+              login(snapshot.val())
+            }
+            else{
+                alert("user does not exist");
+            }
+        }
+        else{
+            alert("username or password is innalid")
+        }
+    })
+}
+
+function login(user){
+
+   
+       window.location="home/home.html"
+    
+}
+submitBtn.onclick=AuthenticateUser;
+
+
+</script>     
+  
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="home.css">
+    <!-- <link rel="stylesheet" href="/Insert Book/header.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css    ">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+</head>
+<body >
+    <div class="page">
+      <!-- <div id="header">
+   <header  class="menu">
+    <h1 class="logo"> <i class="fa-solid fa-book-bookmark"></i>  bookly</h1>
+  <div class="ul-ser">  <ul>
+        <li><a href="#">Home</a></li>
+
+
+        
+    </ul>
+    
+    <div class="dropdown">
+      <div class="dropdown-select">
+      <span class="select1">
+    Services
+      </span>
+      <i class="uil uil-angle-down"></i>
+    
+    </div>
+    <div class="dropdown-list">
+      <div class="dropdown-list-item"><a href="/Insert Book/insertbook.html">Insert Book</a> </div>
+      <div class="dropdown-list-item">
+        <a href="/assest/showuser.html">Search Of customer</a>
+      </div>
+      <div class="dropdown-list-item">
+        <a href="/regiseter/regiseter.html">Insert Custoer</a>
+      </div>
+    </div>
+    </div></div>
+</header></div> -->
+
+<main>
+    <div class="container111">
+        <form class="container-form">
+          <span><i class="uil uil-search"></i></span>
+          <input type="text" placeholder="Search for Custemers" id="inputsearch">
+        </form>
+        <select id="selectMenu" class="select">
+          <option value="1">By Name</option>
+          <option value="2">By Id</option>
+        </select>
+        <button id="searchBtn" type="submit">Search</button>
+      </div>
+
+
+
+      <!-- end Search BAr -->
+ <section class="boxes">
+   <div class="introduction">
+    <div class="text">
+     <h3>Hi Friend!</h3>
+     <pre>
+Here customised world 
+of books for you.
+     </pre>
+     <input type="submit" class="btn" value="Lets go" name="" id="">
+    </div>
+    <div class="avatar">
+        <img class="avatar2" src="Group 6133.svg"  alt=""> 
+        <img  class="avatar1" src="Group 7123.svg" alt=""> 
+    </div>
+   </div>
+
+   <!-- End hero -->
+   <h4>Recommended for you</h4>
+
+
+   <div class="container">
+      <div class="box1">
+        <img src="Bald Bearded Boss.svg"  class="book1" alt="">
+        <div class="part2">
+            <h4>Bald Bearded Boss</h4>
+            <h6>By Elliott holt | feb 2020</h6>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa molestiae 
+                consequatur alias veritatis, ullam perferendis placeat fugiat quasi aliquid. Aliquid!
+            </p>
+        </div>
+       </div>
+     
+      <div class="box1">
+          <img src="Mathematic for human.svg" class="book1" alt="">
+          <div class="part2">
+              <h4>Mathematic for human </h4>
+              <h6>By Elliott holt | feb 2020</h6>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa molestiae 
+                  consequatur alias veritatis, ullam perferendis placeat fugiat quasi aliquid. Aliquid!
+              </p>
+          </div>
+        </div>
+   </div>
+
+    <!--Recommended for you<  -->
+    <div class="allofbook">
+   <div class="text1">
+    <h4>The New York Times Best Sellers</h4>
+   
+          </div>
+<!-- ============ -->
+<div class="container2"  id="imagediv">
+    
+
+<!-- insert -->
+      
+      </div>
+ 
+</div>
+</div>
+</section></main>
+<footer>
+    <p> Bookly  &copy; 2022 || made with love || EPU GROUB</p>
+</footer>
+
+
+
+<script src="/assest/js/main.js"></script>
+
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDWPErVaOrINYAC5lxtLh8sR0hSlZbDBf8",
+      authDomain: "epuproj.firebaseapp.com",
+      projectId: "epuproj",
+      storageBucket: "epuproj.appspot.com",
+      messagingSenderId: "921730510207",
+      appId: "1:921730510207:web:4bd9c904338dc8d609be4a",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    import {
+      getDatabase,
+      ref,
+      child,
+      onValue,
+      get,
+    } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
+    const db = getDatabase();
+
+
+var imageDiv=document.getElementById("imagediv");
+
+
+const addItemToTable = (url,Bookname,author,Isbn,dess,prices) => {
+
+
+  let div0 = document.createElement("div");
+  div0.classList="box11"
+
+  // image
+        let img = document.createElement("img");
+        img.classList+="book11";
+        img.src=url;
+
+
+        let div1 = document.createElement("div");
+          div1.classList+="part1"
+
+
+        let bookname = document.createElement("h4");
+
+        bookname.innerHTML=Bookname;
+        let authorname = document.createElement("h6");
+        authorname.innerHTML=author;
+
+        let isbn = document.createElement("h6");
+        isbn.innerHTML="ISBN :"+Isbn;
+
+        let des = document.createElement("p");
+        des.innerHTML=dess;
+        let price = document.createElement("h5");
+        price.innerHTML="Price :"+prices;
+
+
+        div1.appendChild(bookname);
+        div1.appendChild(authorname);
+        div1.appendChild(isbn);
+        div1.appendChild(des);
+        div1.appendChild(price);
+
+
+        div0.appendChild(img);
+        div0.appendChild(div1);
+        imageDiv.appendChild(div0)
+
+
+        
+
+
+
+}
+
+
+const addAllItemToTable = (Book) => {
+       
+      //  imageDiv.innerHTML = "";
+        Book.forEach((element) => {
+          addItemToTable(
+            element.ImageURL,
+            element.BookName,
+            element.Author,
+            element.ISBN,
+            element.Dsecription,
+            element.Price
+          );
+          // console.log(element.id);
+        });
+      };
+
+
+
+
+
+
+
+const getAllDataOnce = () => {
+        const dbRef = ref(db);
+        get(child(dbRef, "Book")).then((snapshot) => {
+          var book = [];
+          snapshot.forEach((childSnapshot) => {
+            book.push(childSnapshot.val());
+          });
+          addAllItemToTable(book);
+        });
+      };
+
+
+      window.onload = getAllDataOnce;
+
+
+
+// ======================
+
+      var searchBar = document.getElementById("inputsearch");
+      var searchBtn = document.getElementById("searchBtn");
+      var searchSelectMenu = document.getElementById("selectMenu");
+      var tablle = document.getElementById("tabelId");
+
+
+      var showHideImage = document.getElementById("showHideImage");
+
+
+      
+      const searchTable = (Category) => {
+        var filter = searchBar.value.toUpperCase();
+        var tr = table.getElementsByTagName("tr");
+        var found;
+        // search of All tr value in search bar
+        for (let i = 0; i < tr.length; i++) {
+          var td = tr[i].getElementsByClassName(Category);
+
+          for (let j = 0; j < td.length; j++) {
+            if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+              found = true;
+              tablle.style.display = "";
+              showHideImage.style.display = "none";
+
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+            if (!found) {
+              tablle.style.display = "none";
+              showHideImage.style.display = "block";
+
+              found = false;
+            }
+          }
+       
+        }
+      };
+      searchBtn.onclick = function () {
+        if (searchBar.value == "") {
+        } else if (searchSelectMenu.value == 1) {
+          searchTable("nameFiled");
+        } else if (searchSelectMenu.value == 2) {
+          searchTable("idFiled");
+        }
+      };
+
+
+
+
+
+
+
+</script>
+</body>
+
+</div>
+
+</html>

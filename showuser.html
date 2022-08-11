@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="Insert Book/header.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css    "
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+    />
+    <link rel="stylesheet" href="assest/css/test.css " />
+  </head>
+  <body>
+    <header class="menu">
+      <h1 class="logo"><i class="fa-solid fa-book-bookmark"></i> bookly</h1>
+      <div class="ul-ser">
+        <ul>
+          <li><a href="home.html">Home</a></li>
+        </ul>
+
+        <div class="dropdown">
+          <div class="dropdown-select">
+            <span class="select1"> Services </span>
+            <i class="uil uil-angle-down"></i>
+          </div>
+          <div class="dropdown-list">
+            <div class="dropdown-list-item">
+              <a href="insertbook.html">Insert Book</a>
+            </div>
+            <div class="dropdown-list-item">
+              <a href="showuser.html">Search Of customer</a>
+            </div>
+            <div class="dropdown-list-item">
+              <a href="regiseter.html">Insert Custoer</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="container-back">
+      <section>
+        <div>
+          <div class="container">
+            <form class="container-form">
+              <span><i class="uil uil-search"></i></span>
+              <input
+                type="text"
+                placeholder="Search for Custemers"
+                id="inputsearch"
+              />
+            </form>
+            <select id="selectMenu" class="select">
+              <option value="1">By Name</option>
+              <option value="2">By Id</option>
+            </select>
+            <button id="searchBtn" type="submit">Search</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="table-back">
+        <table class="table" id="tabelId">
+          <thead>
+            <tr class="tr11">
+              <td>Count</td>
+              <td>FullName</td>
+              <td>ID</td>
+              <td>Phone</td>
+              <td>Email</td>
+              <td>Address</td>
+              <td>Job</td>
+            </tr>
+          </thead>
+
+          <tbody id="tr1"></tbody>
+        </table>
+        <div class="showHideImage" id="showHideImage">
+          <div class="container-img">
+            <img src="assest/images/testd.png" alt="" />
+            <h2>Sorry, This Customer is Not Registered Yet</h2>
+
+            <a class="button" href="regiseter.html">Regist Now</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>Bookly &copy; 2022 || made with love || EPU GROUB</p>
+    </footer>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDWPErVaOrINYAC5lxtLh8sR0hSlZbDBf8",
+        authDomain: "epuproj.firebaseapp.com",
+        projectId: "epuproj",
+        storageBucket: "epuproj.appspot.com",
+        messagingSenderId: "921730510207",
+        appId: "1:921730510207:web:4bd9c904338dc8d609be4a",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      import {
+        getDatabase,
+        ref,
+        child,
+        onValue,
+        get,
+      } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
+      const db = getDatabase();
+
+      // ==================Get Data==========
+      var stdNo = 0;
+      var table = document.getElementById("tr1");
+
+      const addItemToTable = (name, id, phone, email, addres, job) => {
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        let td3 = document.createElement("td");
+        let td4 = document.createElement("td");
+        let td5 = document.createElement("td");
+        let td6 = document.createElement("td");
+        let td7 = document.createElement("td");
+        td1.innerHTML = ++stdNo;
+        td2.innerHTML = name;
+        td3.innerHTML = id;
+
+        td4.innerHTML = phone;
+        td5.innerHTML = email;
+        td6.innerHTML = addres;
+        td7.innerHTML = job;
+
+        td2.classList += "nameFiled";
+        td3.classList += "idFiled";
+
+        td1.setAttribute("data-lable", "Count :");
+        td2.setAttribute("data-lable", "FullName :");
+        td3.setAttribute("data-lable", "ID :");
+        td4.setAttribute("data-lable", "Phone :");
+        td5.setAttribute("data-lable", "Email :");
+        td6.setAttribute("data-lable", "Address :");
+        td7.setAttribute("data-lable", "Job :");
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tr.appendChild(td6);
+        tr.appendChild(td7);
+        table.appendChild(tr);
+      };
+
+      const addAllItemToTable = (Customer) => {
+        stdNo = 0;
+        table.innerHTML = "";
+        Customer.forEach((element) => {
+          addItemToTable(
+            element.name,
+            element.id,
+            element.phone,
+            element.email,
+            element.Address,
+            element.job
+          );
+          // console.log(element.id);
+        });
+      };
+
+      const getAllDataOnce = () => {
+        const dbRef = ref(db);
+        get(child(dbRef, "Custmer")).then((snapshot) => {
+          var custmer = [];
+          snapshot.forEach((childSnapshot) => {
+            custmer.push(childSnapshot.val());
+          });
+          addAllItemToTable(custmer);
+        });
+      };
+      window.onload = getAllDataOnce;
+      // ============== filter =================
+
+      var searchBar = document.getElementById("inputsearch");
+      var searchBtn = document.getElementById("searchBtn");
+      var searchSelectMenu = document.getElementById("selectMenu");
+      var tablle = document.getElementById("tabelId");
+      var showHideImage = document.getElementById("showHideImage");
+      const searchTable = (Category) => {
+        var filter = searchBar.value.toUpperCase();
+        var tr = table.getElementsByTagName("tr");
+        var found;
+        // search of All tr value in search bar
+        for (let i = 0; i < tr.length; i++) {
+          var td = tr[i].getElementsByClassName(Category);
+
+          for (let j = 0; j < td.length; j++) {
+            if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+              found = true;
+              tablle.style.display = "";
+              showHideImage.style.display = "none";
+
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+            if (!found) {
+              tablle.style.display = "none";
+              showHideImage.style.display = "block";
+
+              found = false;
+            }
+          }
+          // if (found) {
+          //   tr[i].style.display = "";
+          //   found = false;
+          // } else if (!found) {
+          //   tr[i].style.display = "none";
+          // }
+        }
+      };
+      searchBtn.onclick = function () {
+        if (searchBar.value == "") {
+        } else if (searchSelectMenu.value == 1) {
+          searchTable("nameFiled");
+        } else if (searchSelectMenu.value == 2) {
+          searchTable("idFiled");
+        }
+      };
+      //  =    ===================
+    </script>
+  </body>
+</html>

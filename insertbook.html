@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Complete Responsive Website Design</title>
+<link rel="stylesheet" href="Insert Book/insertbook.css">
+<link rel="stylesheet" href="Insert Book/header.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css    ">
+
+
+</head>
+<body>
+
+    <header class="menu">
+        <h1 class="logo"> <i class="fa-solid fa-book-bookmark"></i>  bookly</h1>
+      <div class="ul-ser">  <ul>
+            <li><a href="home.html">Home</a></li>
+    
+    
+            
+        </ul>
+        
+        <div class="dropdown">
+          <div class="dropdown-select">
+          <span class="select1">
+        Services
+          </span>
+          <i class="uil uil-angle-down"></i>
+        
+        </div>
+        <div class="dropdown-list">
+          <div class="dropdown-list-item"><a href="insertbook.html">Insert Book</a> </div>
+          <div class="dropdown-list-item">
+            <a href="showuser.html">Search Of customer</a>
+          </div>
+          <div class="dropdown-list-item">
+            <a href="regiseter.html">Insert Custoer</a>
+          </div>
+        </div>
+        </div></div>
+    </header>
+<div class="body">
+
+
+    <section class="contact">
+  <div class="container">
+    <div class="title">Insert Book</div>
+    <form action="#" id="inputForm">
+        <div class="user_details">
+            <div class="input-box-father">
+            <div class="input_box">
+                <span class="details">Book Name </span>
+                    <input id="bookname" type="text" placeholder="Enter Book Name"required>
+            </div>
+            <div class="input_box">
+                <span class="details">Book ISBN</span>
+                    <input id="ISBN" type="number" placeholder="Enter ISBN"required>
+                
+            </div>
+            <div class="input_box">
+                <span class="details">Book Author</span>
+                    <input id="Authorname" type="text" placeholder="Enter Author Name"require>
+            </div>
+            <div class="input_box">
+                <span class="details">Image</span>
+                    <input id="image" type="text" require>
+            </div>
+        </div>
+        <div class="input-box-father">
+            <div class="input_box">
+                <span  class="details">Price</span>
+                    <input id="price" type="number" placeholder="Enter Price"required>
+            </div>
+            
+            <div class="input_box">
+                <span class="details textarea-span">Description of book </span>
+                    <textarea id="textarea" required></textarea>
+            </div>
+
+            
+        </div>
+        
+        </div>
+       <label id="prog" ></label>
+    </form>
+    <div class="input_box Btn-flex">
+        <button id="insertBtn" class="isertbtn"> Insert Image</button>
+  </div>
+     <div class="button">
+        <input id="submitBtn" type="submit"value="Register"  disabled="disabled" >
+    </div>
+  </div> 
+  
+ 
+</section>
+</div>
+<footer>
+    <p> Bookly  &copy; 2022 || made with love || EPU GROUB</p>
+</footer>
+
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDWPErVaOrINYAC5lxtLh8sR0hSlZbDBf8",
+      authDomain: "epuproj.firebaseapp.com",
+      databaseURL: "https://epuproj-default-rtdb.firebaseio.com",
+      projectId: "epuproj",
+      storageBucket: "epuproj.appspot.com",
+      messagingSenderId: "921730510207",
+      appId: "1:921730510207:web:4bd9c904338dc8d609be4a"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    
+      import {
+        getStorage,
+        ref as sRef,
+        uploadBytesResumable,
+        getDownloadURL
+      } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-storage.js";
+     
+
+      import {
+        getDatabase,
+        ref,
+        set,
+        child,
+        update,
+        remove,
+      } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
+      const realdb = getDatabase();
+
+
+      var bookname=document.getElementById("bookname")
+      var isbn=document.getElementById("ISBN")
+      var authorname=document.getElementById("Authorname")
+      var image=document.getElementById("image")
+      var price=document.getElementById("price")
+      var textarea=document.getElementById("textarea")
+      var submitBtn=document.getElementById("submitBtn")
+      var insertBtn=document.getElementById("insertBtn")
+      
+      var prog=document.getElementById("prog")
+      var inputForm=document.getElementById("inputForm")
+      var input=document.createElement("input");
+      var files=[];
+      var reader=new FileReader();
+      input.type="file";
+      input.onchange=e=>{
+        files=e.target.files;
+
+        
+        var name = GetFileName(files[0]); 
+        image.value=name;
+
+        reader.readAsDataURL(files[0]);
+      }
+
+      insertBtn.onclick=function(){
+        input.click();
+      }
+
+      const GetFileName=(file)=>{
+        var temp=file.name.split(".");
+        var fname=temp.slice(0,-1).join(".");
+        return fname;
+      }
+
+
+
+
+      inputForm.addEventListener('input',()=>{
+    if(bookname.value.length>2 && isbn.value.length>2 && textarea.value.length>2 && authorname.value.length>2 && price.value.length>2){
+submitBtn.removeAttribute("disabled");
+}else{
+    submitBtn.setAttribute("disabled","disabled");
+}
+});
+
+      async function UploadProcess(){
+        var imageToUpload=files[0];
+
+        var imageName =image.value;
+
+        const metaData={
+            contentType:imageToUpload.type
+        }
+if(!validateName()){
+    alert('name connot contain ".", "#" , "[" ,or "]"');
+}
+
+        const storage=getStorage();
+        const storageRef= sRef(storage,"Image/"+imageName);
+
+        const uploadTask = uploadBytesResumable(storageRef,imageToUpload,metaData)
+
+        uploadTask.on('state-changed',(snapshot)=>{
+            var progess =(snapshot.bytesTransferred/snapshot.totalBytes)*100;
+           prog.innerHTML="upload"+progess+"%"
+        },
+        (error)=>{
+            alert("erroe : imge not uploald!");
+        },
+        ()=>{
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL)=>{
+                var xx=downloadURL;
+                console.log(xx)
+                saveURLToRealTimeDB(xx);
+            });
+        }
+        
+        
+        
+        );
+      }
+
+function saveURLToRealTimeDB(URL){
+
+    // var url=this.Url;
+
+    set(ref(realdb,"Book/"+isbn.value),{
+        
+        ISBN:isbn.value,
+        ImageURL: URL,
+        BookName:bookname.value,
+        Author:authorname.value,
+        Price:price.value,
+        Dsecription:textarea.value
+    }) ;
+}
+
+
+
+function validateName(){
+    var reg=/[\.#$\[\]]/
+    return !(reg.test(image.value))
+}
+
+
+      submitBtn.onclick=UploadProcess;
+ 
+
+
+      
+
+
+     
+  </script>
+</body>
+</html>
